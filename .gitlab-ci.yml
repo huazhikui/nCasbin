@@ -1,0 +1,31 @@
+image: microsoft/dotnet:latest
+
+stages:
+  - restore
+  - unit_test
+  - pack
+  
+restore_submodule:
+  stage: restore
+  script:
+    - 'git submodule init'
+    - 'git submodule foreach git submodule update'
+    - 'git submodule update --remote'
+  
+unit_test:
+  stage: unit_test
+  script:
+    - 'dotnet test'  
+  
+build_job:
+  stage: pack
+  script:
+    - 'dotnet build'
+    - 'dotnet pack NetCasbin -o ../publish'
+    # 发布程序并部署运行
+    - 'dotnet nuget push -s http://192.168.0.250:8091/v3/index.json  publish/NetCasbin.*.nupkg -k 111'
+  only:
+    - master
+    - develop
+    - feature/npa
+
