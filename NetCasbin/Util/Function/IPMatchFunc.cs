@@ -11,7 +11,7 @@ namespace NetCasbin
         {
             Func<string, string, bool> call = (arg1, arg2) =>
             {
-                return BuiltInFunctions.ipMatch(arg1, arg2);
+                return BuiltInFunctions.IPMatch(arg1, arg2);
             };
             return call;
         }

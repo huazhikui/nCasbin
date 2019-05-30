@@ -1,6 +1,7 @@
 ﻿using NetCasbin.Rabc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NetCasbin
@@ -72,15 +73,7 @@ namespace NetCasbin
 
         public Boolean HasPolicy(String sec, String ptype, List<String> rule)
         {
-            foreach (List<String> r in Model[sec][ptype].Policy)
-            {
-                if (Util.ArrayEquals(rule, r))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return Model[sec][ptype]!=null && Model[sec][ptype].Policy.Any(x => Util.ArrayEquals(rule, x));
         }
 
         public Boolean AddPolicy(String sec, String ptype, List<String> rule)
